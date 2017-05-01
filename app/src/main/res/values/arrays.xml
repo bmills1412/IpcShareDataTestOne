@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--All available colors below -->
+    <!--Referenced here instead of colors.xml-->
+    <!--colors.xml will be reserved for styling-->
+    <eat-comment/>
+
+    <string-array name="available_colors">
+        <item>#ffffff</item>
+        <item>#000000</item>
+        <item>#550000</item>
+        <item>#d40000</item>
+        <item>#ff8080</item>
+        <item>#aa4400</item>
+        <item>#ff6600</item>
+        <item>#ff9955</item>
+        <item>#ffccaa</item>
+        <item>#502d16</item>
+        <item>#784421</item>
+        <item>#d38d5f</item>
+        <item>#e9c6af</item>
+        <item>#d4aa00</item>
+        <item>#ffd42a</item>
+        <item>#ffdd55</item>
+        <item>#ffeeaa</item>
+        <item>#44aa00</item>
+        <item>#7fff2a</item>
+        <item>#b3ff80</item>
+        <item>#ccffaa</item>
+        <item>#0044aa</item>
+        <item>#0066ff</item>
+        <item>#5599ff</item>
+        <item>#aaccff</item>
+        <item>#442178</item>
+        <item>#8d5fd3</item>
+        <item>#aa87de</item>
+        <item>#ccaaff</item>
+        <item>#aa0088</item>
+        <item>#ff00cc</item>
+        <item>#ff55dd</item>
+        <item>#ffaaee</item>
+    </string-array>
+
+
+    <integer-array name="actionItemResource">
+        <item>@drawable/check</item>
+        <item>@drawable/dots</item>
+    </integer-array>
+
+
+</resources>

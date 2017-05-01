@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <item name="paintViewId" type="id"/>
+
+    <item name="colorChooserGridId" type="id"/>
+
+    <item name="colorChooserCheckId" type="id"/>
+
+    <item name="mainContentPage" type="id"/>
+
+    <item name="colorChooserSceneRootId" type="id"/>
+
+    <item name="extendedViewId" type="id"/>
+
+
+</resources>

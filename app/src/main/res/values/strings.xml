@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">IpcShareDataTestOne</string>
+
+    <string name="paintFileService_desc_manifest">This feature allows efficient image saving.</string>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--
+      -A declare-styleable is an array of attributes that point to a value. Think of it like a Cursor.
+      R.styleable would be the table and R.attr would be a record _id
+      the actual value is found at each   _id of a declare-styleable.
+
+        -to reference an actual Styleable, it's R.styleable.styleArrayName
+        -to reference each index of Styleable (attributes) R.attr.styleArrayName_attributeVar
+     -->
+    <eat-comment/>
+
+
+    <declare-styleable name="PaintView">
+
+        <attr name="thumbStrokeSize" format="dimension|integer|float|reference"/>
+        <attr name="thumbStrokeColor" format="reference|integer|color"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="DefaultCustomViewStyling">
+        <attr name="paintViewStyle" format="reference"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="ExtendActionViews">
+        <attr name="thumbColor" format="color|integer|string"/>
+        <attr name="trackColor" format="color|integer|string"/>
+        <attr name="itemSpacing" format="integer|float|dimension"/>
+        <attr name="thumbWidth" format="integer|float|dimension"/>
+
+    </declare-styleable>
+
+
+
+
+
+
+
+</resources>

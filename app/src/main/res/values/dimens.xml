@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="defaultStrokeSize">12dp</dimen>
+
+    <dimen name="defaultColorChooserSize">48dp</dimen>
+    <dimen name="colorChooserSpacings">8dp</dimen>
+    <!--
+     There are 4 columns, each item is of size defaultColorChooserSize
+     along with (5)8dp spacings, thus 236 width, and since it's a square
+     236 height
+    -->
+    <dimen name="colorChooserSize">232dp</dimen>
+
+
+    <dimen name="colorChooserCheckSize">56dp</dimen>
+    <dimen name="colorChooserCheckPadding">16dp</dimen>
+
+    <dimen name="defaulExtendActionViewHeight">32dp</dimen>
+
+    <dimen name="itemSpacing">16dp</dimen>
+
+</resources>
