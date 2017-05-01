@@ -118,8 +118,10 @@ public class ColorChooser extends PopupWindow implements ColorAdapter.OnColorCho
     private final View.OnClickListener colorChosenCheckListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            /*
             onColorChosenClient.onColorChosen(color);
             dismiss();
+             */
         }
     };
 
