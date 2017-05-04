@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
         final Uri bitmapCacheUri = getContentResolver().insert(ArtCacheContract.ART_CACHE_URI, artByteValues);
 
         launchSaveFileService(bitmapCacheUri, artName);
-        test(artName);
+
     }
 
     private void launchSaveFileService(Uri uri, String fileName){
@@ -140,16 +140,6 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
     }
 
 
-    private void test(String fileName){
-        Bitmap art = null;
-        try {
-             art = fileUtility.getFileData(fileName);
-        }catch(IOException e){
-            Log.i("test", "ERROR READING from file");
-        }
-        if(art!=null)
-            this.paintView.setDrawingBitMap(art);
 
-    }
 
 }
