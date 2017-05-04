@@ -8,6 +8,7 @@ import android.net.Uri;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 
 
@@ -15,6 +16,7 @@ import com.example.bryan.ipcsharedatatestone.Adapter.ColorAdapter;
 import com.example.bryan.ipcsharedatatestone.CustomViews.ExtendActionViews;
 import com.example.bryan.ipcsharedatatestone.CustomViews.PaintView;
 import com.example.bryan.ipcsharedatatestone.DataStorage.ArtCacheContract;
+import com.example.bryan.ipcsharedatatestone.DataStorage.FileUtils;
 import com.example.bryan.ipcsharedatatestone.Interfaces.OnActionItemClicked;
 import com.example.bryan.ipcsharedatatestone.R;
 import com.example.bryan.ipcsharedatatestone.backgroundjobs.PaintFileService;
@@ -31,8 +33,10 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
     private ColorChooser chooser;
     private ExtendActionViews extendActionViews;
 
-    public static final String IMAGEE_KEY = "artKey";
+    private FileUtils fileUtility;
 
+    public static final String IMAGE_KEY = "artKey";
+    public static final String IMAGE_NAME = "imageName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,34 +115,23 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
 
     private void saveImage(Bitmap art, String artName) {
 
-        /*
-         * To write to my apps internal storage, fetch getFilesDir() which returns a path to
-         * data/data/<package-name>/files/
-         *
-         * then create a new file with getFilesDir() as parent, and some arbitrary name as the file name
-         *
-         */
-
-
         //byteArrayOutputStream contains an implicit Buffer, so no need to wrap :)
         final ByteArrayOutputStream byteArrayStream = new ByteArrayOutputStream();
-
         art.compress(Bitmap.CompressFormat.PNG, 0, byteArrayStream);
 
         final ContentValues artByteValues = new ContentValues();
         artByteValues.put(ArtCacheContract.COL_BITMAP, byteArrayStream.toByteArray());
+        artByteValues.put(ArtCacheContract.COL_NAME, artName);
 
         final Uri bitmapCacheUri = getContentResolver().insert(ArtCacheContract.ART_CACHE_URI, artByteValues);
 
+        launchSaveFileService(bitmapCacheUri, "temp");
     }
 
-    private void tempSaveToFileTest(byte[] imageBytes){
-
-    }
-
-    private void saveToFile(Uri uri){
+    private void launchSaveFileService(Uri uri, String fileName){
         Intent saveFileIntent = new Intent(this, PaintFileService.class);
-        saveFileIntent.putExtra(IMAGEE_KEY, uri);
+        saveFileIntent.putExtra(IMAGE_KEY, uri.toString());
+        saveFileIntent.putExtra(IMAGE_NAME, fileName);
         startService(saveFileIntent);
     }
 

@@ -13,7 +13,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 /**
- * Created by bryan on 4/28/2017.
+ * For bitmap scaling
+ * https://www.youtube.com/watch?v=HY9aaXHx8yA
  */
 
 public class ArtCacheProvider extends ContentProvider {
@@ -60,13 +61,10 @@ public class ArtCacheProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
 
+        //NOTE: when you delete a record, sqlite still maintains its internal counter for primary key
+        //soo if i have 100 items, delete 5, and insert 1, the _id will be 101.
+
         final byte[] tempBytes = (byte[]) values.get(ArtCacheContract.COL_BITMAP);
-
-        for(int i = 0; i < 10; i++){
-            Log.i("test", String.format("%d", tempBytes[i]));
-        }
-
-
 
 
         long rowId = artHelper.getWritableDatabase().insert(ArtCacheContract.TABLE_NAME, null, values);

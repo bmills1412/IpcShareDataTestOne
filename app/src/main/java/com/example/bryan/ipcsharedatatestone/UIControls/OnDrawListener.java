@@ -4,9 +4,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by bryan on 5/4/2017.
- */
 
 public class OnDrawListener implements View.OnTouchListener {
 

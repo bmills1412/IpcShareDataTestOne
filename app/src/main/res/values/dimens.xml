@@ -18,5 +18,6 @@
     <dimen name="defaulExtendActionViewHeight">32dp</dimen>
 
     <dimen name="itemSpacing">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>

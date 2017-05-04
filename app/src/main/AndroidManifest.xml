@@ -26,9 +26,9 @@
             android:exported="false" />
 
         <provider
-            android:authorities="com.example.bryan.ipcscahreddatatestone.DataStorage.ArtCacheProvider"
-            android:name="com.example.bryan.ipcsharedatatestone.DataStorage.ArtCacheProvider"
-        />
+            android:name=".DataStorage.ArtCacheProvider"
+            android:authorities="com.example.bryan.ipcscahreddatatestone.DataStorage.ArtCacheProvider" />
+
 
     </application>
 

@@ -17,9 +17,12 @@ public class ArtCacheContract implements BaseColumns {
 
     public static final String COL_BITMAP = "artCacheCol";
 
+    public static final String COL_NAME = "artName";
+
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME +
             "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COL_BITMAP + " blob not null );";
+            COL_BITMAP + " blob not null," +
+            COL_NAME + " text not null);";
 
 
    public static final Uri ART_CACHE_URI = Uri.withAppendedPath(ArtCacheProvider.ART_CACHE_PROVIDER_URI, TABLE_NAME);
