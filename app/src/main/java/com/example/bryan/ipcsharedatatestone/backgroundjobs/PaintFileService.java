@@ -3,15 +3,18 @@ package com.example.bryan.ipcsharedatatestone.backgroundjobs;
 import android.app.Service;
 import android.content.ContentUris;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.bryan.ipcsharedatatestone.DataStorage.ArtCacheContract;
 import com.example.bryan.ipcsharedatatestone.DataStorage.FileUtils;
 import com.example.bryan.ipcsharedatatestone.UIControls.MainActivity;
 
+import java.io.IOException;
 import java.net.URI;
 
 import javax.xml.transform.URIResolver;
@@ -37,7 +40,7 @@ public class PaintFileService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        final String fileName = intent.getExtras().getString(MainActivity.IMAGE_NAME);
+        fileName = intent.getExtras().getString(MainActivity.IMAGE_NAME);
         cacheRes = Uri.parse(intent.getExtras().getString(MainActivity.IMAGE_KEY));
 
         fileUtils.setupFileUtils(getFilesDir());
@@ -56,30 +59,43 @@ public class PaintFileService extends Service {
     }
 
 
-    private void deleteFromCache(Uri uri){
-        getContentResolver().delete(uri, null, null);
-    }
-
 
     private Runnable saveImageRunnable = new Runnable() {
         @Override
         public void run() {
-            getContentResolver().query(cacheRes,
-                    new String[]{"h"},
-                    "artname=?",
+          final Cursor artData = getContentResolver().query(cacheRes,
+                    new String[]{ArtCacheContract.COL_BITMAP, ArtCacheContract.COL_NAME},
+                    ArtCacheContract.COL_NAME+"=?",
                     new String[]{fileName},
                     null);
 
-            /**
-             * Cursor query (Uri uri,
-             String[] projection,
-             String selection,
-             String[] selectionArgs,
-             String sortOrder)
-             */
+            byte[] image = null;
+            String artName = null;
 
+            if(artData!=null)
+            if(artData.getCount()!=0){
+                artData.moveToFirst();
+
+                final int artIndex = artData.getColumnIndex(ArtCacheContract.COL_BITMAP);
+                final int artNameIndex = artData.getColumnIndex(ArtCacheContract.COL_NAME);
+
+                image = artData.getBlob(artIndex);
+                artName = artData.getString(artNameIndex);
+            }
+
+            try {
+                fileUtils.saveImageToFile(image, artName);
+            }catch (IOException e){
+                Log.i("test", "Saving the image to the file went wrong ;/");
+            }
+
+
+           long num = getContentResolver().delete(cacheRes, ArtCacheContract.COL_NAME+"=?", new String[]{fileName});
+            Log.i("test", "NUMBER OF RECORDS DELETED FROM CACHE: " + String.valueOf(num));
 
         }
+
+
     };
 
 

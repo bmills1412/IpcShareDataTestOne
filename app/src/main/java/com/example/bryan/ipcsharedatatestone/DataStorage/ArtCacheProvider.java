@@ -64,9 +64,6 @@ public class ArtCacheProvider extends ContentProvider {
         //NOTE: when you delete a record, sqlite still maintains its internal counter for primary key
         //soo if i have 100 items, delete 5, and insert 1, the _id will be 101.
 
-        final byte[] tempBytes = (byte[]) values.get(ArtCacheContract.COL_BITMAP);
-
-
         long rowId = artHelper.getWritableDatabase().insert(ArtCacheContract.TABLE_NAME, null, values);
 
         if(rowId == -1)

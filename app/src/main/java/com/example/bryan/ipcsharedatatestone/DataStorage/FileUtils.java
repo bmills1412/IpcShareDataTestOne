@@ -1,8 +1,11 @@
 package com.example.bryan.ipcsharedatatestone.DataStorage;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -51,8 +54,8 @@ public class FileUtils {
 
         final FileOutputStream outputStream = new FileOutputStream(dataFile, false);
 
-        outputStream.write(data);
-        outputStream.close();
+       // outputStream.write(data);
+        //outputStream.close();
     }
 
     public void deleteImageFromFile(String fileName) throws FileNotFoundException, IOException{
@@ -63,6 +66,18 @@ public class FileUtils {
 
 
     }
+
+    public Bitmap getFileData(String fileName)throws IOException{
+
+        final File imageFile = new File(imageDirectory, fileName);
+
+        final FileInputStream dataStream = new FileInputStream(imageFile);
+
+        final Bitmap art = BitmapFactory.decodeStream(dataStream);
+
+        return art;
+    }
+
 
     public <Bitmap> void getDirImageData(){
         final File[] dataFiles = imageDirectory.listFiles();

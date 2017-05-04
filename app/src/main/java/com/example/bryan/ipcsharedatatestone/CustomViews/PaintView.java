@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -112,7 +111,7 @@ public class PaintView extends View {
         if(pathStack.size() > 0) {
             this.pathStack.removeFirst();
             drawingBitMap.eraseColor(Color.WHITE);
-            undoRedrawCanvas();
+            redrawCanvas();
         }
     }
 
@@ -126,7 +125,7 @@ public class PaintView extends View {
         return pathStack.size();
     }
 
-    private void undoRedrawCanvas(){
+    private void redrawCanvas(){
         Iterator<PathData> pathIterator = pathStack.descendingIterator();
 
         while(pathIterator.hasNext()){
@@ -151,9 +150,21 @@ public class PaintView extends View {
         invalidate();
     }
 
+    public void setDrawingBitMap(Bitmap bmp){
+        this.drawingBitMap = bmp;
+        redrawCanvas();
+    }
+
+    private void scaleNewBitmap(){
+
+    }
+
+
+
     private boolean hasMoved = false;
     private int firstTouchX, firstTouchY;
     private final ViewConfiguration touchConfig = ViewConfiguration.get(getContext());
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
@@ -204,8 +215,6 @@ public class PaintView extends View {
         }
     }
 
-
-
     private void onUpOrCancel(){
 
 
@@ -227,6 +236,8 @@ public class PaintView extends View {
         hasMoved = false;
         currPath.reset();
     }
+
+
 
 
     private class PathData{

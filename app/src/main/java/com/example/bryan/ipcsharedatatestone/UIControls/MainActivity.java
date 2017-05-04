@@ -23,6 +23,7 @@ import com.example.bryan.ipcsharedatatestone.backgroundjobs.PaintFileService;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
         paintView.setOnTouchListener(new OnDrawListener(extendActionViews));
 
         constructActionItems();
+
+        this.fileUtility = new FileUtils(getFilesDir());
     }
 
     @Override
@@ -125,7 +128,8 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
 
         final Uri bitmapCacheUri = getContentResolver().insert(ArtCacheContract.ART_CACHE_URI, artByteValues);
 
-        launchSaveFileService(bitmapCacheUri, "temp");
+        launchSaveFileService(bitmapCacheUri, artName);
+        test(artName);
     }
 
     private void launchSaveFileService(Uri uri, String fileName){
@@ -135,5 +139,17 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
         startService(saveFileIntent);
     }
 
+
+    private void test(String fileName){
+        Bitmap art = null;
+        try {
+             art = fileUtility.getFileData(fileName);
+        }catch(IOException e){
+            Log.i("test", "ERROR READING from file");
+        }
+        if(art!=null)
+            this.paintView.setDrawingBitMap(art);
+
+    }
 
 }
