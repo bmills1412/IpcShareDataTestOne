@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.net.Uri;
 
 import android.support.v7.app.AppCompatActivity;
@@ -27,8 +28,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements ColorAdapter.OnColorChosen, OnActionItemClicked{
-
+public class MainActivity extends AppCompatActivity{
 
     private PaintView paintView;
     private ColorChooser chooser;
@@ -55,29 +55,6 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
         this.fileUtility = new FileUtils(getFilesDir());
     }
 
-    @Override
-    public void onColorChosen(String color) {
-        paintView.setCurrPathColor(Color.parseColor(color));
-    }
-
-    @Override
-    public void onActionItemClicked(String actionState){
-        switch(actionState){
-            case ExtendActionViews.STATE_CLEAR: onClear();
-                break;
-            case ExtendActionViews.STATE_UNDO: onUndo();
-                break;
-            case ExtendActionViews.STATE_SAVE: onSave();
-                break;
-            case ExtendActionViews.STATE_PALLETE: onPallete();
-                break;
-            case ExtendActionViews.STATE_SIZE: onSize();
-                break;
-            default:
-                break;
-        }
-    }
-
     private void constructActionItems() {
         Map<String, Integer> actionItems = new LinkedHashMap<>();
             actionItems.put(ExtendActionViews.STATE_CLEAR, R.drawable.clear);
@@ -87,33 +64,48 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
             actionItems.put(ExtendActionViews.STATE_SIZE, R.drawable.brush);
 
         extendActionViews.setActionStates(actionItems);
-        extendActionViews.setOnActionItemClickedListener(this);
-    }
 
-    private void onClear() {
-        paintView.clearPaths();
-    }
+        extendActionViews.setOnActionItemClickedListener(new OnActionItemClicked() {
+            @Override
+            public void onActionItemClicked(String actionState) {
+                switch(actionState){
 
-    private void onUndo() {
-        paintView.undo();
-    }
+                    case ExtendActionViews.STATE_CLEAR:
+                        paintView.clearPaths();
+                        break;
 
-    private void onSave() {
-        final Bitmap image = paintView.getDrawingBitmap();
-        if (image != null) {
-            //Launch a Dialog asking the user for an image name as well.
-            saveImage(image, "tempstring");
-        }
-    }
+                    case ExtendActionViews.STATE_UNDO:
+                        paintView.undo();
+                        break;
 
-    private void onPallete() {
-        this.chooser = new ColorChooser(this);
-        this.chooser.setOnColorChosenClient(this);
-        chooser.showAtLocation(paintView, Gravity.NO_GRAVITY, 0, 0);
-    }
+                    case ExtendActionViews.STATE_SAVE:
+                        final Bitmap image = paintView.getDrawingBitmap();
+                        if (image != null) {
+                            //Launch a Dialog asking the user for an image name as well.
+                            saveImage(image, "tempstring");
+                        }
+                        break;
 
-    private void onSize() {
-        //launch size dialog...
+                    case ExtendActionViews.STATE_PALLETE:
+                        MainActivity.this.chooser = new ColorChooser(MainActivity.this);
+                        MainActivity.this.chooser.setOnColorChosenClient(new ColorAdapter.OnColorChosen() {
+                            @Override
+                            public void onColorChosen(String color) {
+                                paintView.setCurrPathColor(Color.parseColor(color));
+                            }
+                        });
+                        chooser.showAtLocation(paintView, Gravity.NO_GRAVITY, 0, 0);
+                        break;
+
+                    case ExtendActionViews.STATE_SIZE:
+                        //Launch size dialog
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     private void saveImage(Bitmap art, String artName) {
@@ -138,8 +130,5 @@ public class MainActivity extends AppCompatActivity implements ColorAdapter.OnCo
         saveFileIntent.putExtra(IMAGE_NAME, fileName);
         startService(saveFileIntent);
     }
-
-
-
 
 }
